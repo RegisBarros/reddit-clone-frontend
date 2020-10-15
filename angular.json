@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -119,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "reddit-clone"
+    }
+  },
+  "defaultProject": "reddit-clone",
+  "cli": {
+    "analytics": "05699c0a-f457-46a5-8f70-965e35ac9dcf"
+  }
 }
