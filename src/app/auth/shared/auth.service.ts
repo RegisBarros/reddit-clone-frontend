@@ -12,7 +12,6 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(private httpClient: HttpClient, private localStorage: LocalStorageService) { }
 
   signup(signupRequestPayload: SignupRequestPayload): Observable<any> {
@@ -29,6 +28,31 @@ export class AuthService {
 
         return true;
       }));
+  }
+
+  getJwtToken(): any {
+    return this.localStorage.retrieve('authenticationToken');
+  }
+
+  refreshToken(): Observable<LoginResponse> {
+    const refreshTokenPayload = {
+      refreshToken: this.getRefreshToken(),
+      username: this.getUserName()
+    };
+
+    return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/refresh/token', refreshTokenPayload)
+      .pipe(tap(response => {
+        this.localStorage.store('authenticationToken', response.authenticationToken);
+        this.localStorage.store('expiresAt', response.expiresAt);
+      }));
+  }
+
+  getUserName(): string {
+    return this.localStorage.retrieve('username');
+  }
+
+  getRefreshToken(): string {
+    return this.localStorage.retrieve('refreshToken');
   }
 }
 
